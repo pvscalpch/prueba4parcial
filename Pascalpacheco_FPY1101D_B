@@ -1,0 +1,104 @@
+##Pascal Ignacio Pacheco Bravo 11-07-25
+#productos = {modelo: [marca, pantalla, RAM, disco, GB de DD, procesador, video], ...]
+productos = {
+    '8475HD': ['HP', 15.6, '8GB', 'DD', '1T', 'Intel Core i5', 'Nvidia GTX1050'],
+    '2175HD': ['Acer', 14, '4GB', 'SSD', '512GB', 'Intel Core i5', 'Nvidia GTX1050'],
+    'JjfFHD': ['Asus', 14, '16GB', 'SSD', '256GB', 'Intel Core i7', 'Nvidia RTX2080Ti'],
+    'fgdxFHD': ['HP', 15.6, '12GB', 'DD', '1T', 'Intel Core i3', 'integrada'],
+    'GF75HD': ['Asus', 15.6, '12GB', 'DD', '1T', 'Intel Core i7', 'Nvidia GTX1050'],
+    '123FHD': ['Acer', 14, '6GB', 'DD', '1T', 'AMD Ryzen 5', 'integrada'],
+    '342FHD': ['Acer', 15.6, '8GB', 'DD', '1T', 'AMD Ryzen 7', 'Nvidia GTX1050'],
+    'UWU131HD': ['Dell', 15.6, '8GB', 'DD', '1T', 'AMD Ryzen 3', 'Nvidia GTX1050'],
+}
+
+#stock = {modelo: [precio, stock], ...]
+stock = {
+    '8475HD': [387990,10], 
+    '2175HD': [327990,4], 
+    'JjfFHD': [424990,1],
+    'fgdxFHD': [664990,21], 
+    '123FHD': [290890,32], 
+    '342FHD': [444990,7],
+    'GF75HD': [749990,2], 
+    'UWU131HD': [349990,1], 
+    'FS1230HD': [249990,0],
+}
+
+def stock_marca(marca):
+    total = 0
+    for modelo, datos in productos.items():
+        if datos[0].lower() == marca.lower() and modelo in stock:
+           total += stock[modelo][1]
+           print(f"Stock total disponible para {marca}: {total}")
+
+
+
+def busqueda_precios(p_min,p_max):
+    search=[]
+    for modelo, datos in productos.items():
+        if modelo in stock:
+            precio, cantidad = stock[modelo]
+            if cantidad > 0 and p_min <= precio <= p_max:
+                search.append(f"{datos[0]}--{modelo}--{precio}")
+                if search: 
+                    print(sorted(search) )
+                
+
+def eliminar_producto(modelo):
+    product= input("Escriba el producto que sea eliminar: \n").lower()
+    for datos in productos():
+        if datos[0].lower() == product:
+            del modelo[stock,productos]
+            return True
+        return False
+
+
+
+def menu():
+    while True:
+        print("***MENU PRINCIPAL***")
+        print("1.Stock Marca")
+        print("2. Búsqueda por precio.")
+        print("3.Eliminar Producto.")
+        print("4. Salir.")        
+        op = int(input("Seleccione una opción: \n"))
+        if op==1:
+            marca = input("Ingrese la marca: ")
+            stock_marca(marca)
+        elif op== 2:
+            try:
+                p_min = int(input("Ingrese precio mínimo: "))
+                p_max = int(input("Ingrese precio máximo: "))
+            except ValueError:
+                print("Debe ingresar valores enteros!!")
+                continue
+            search= busqueda_precios(p_min, p_max)
+            if search:
+                for s in search:
+                    print("Los notebooks entre los precios consultas son:" ,(s))
+            else:
+                print("No hay notebooks en ese rango de precios.")
+        elif op == 3:
+            while True:
+                modelo = input("Ingrese el modelo a eliminar: ")
+                if modelo not in stock:
+                    print("El modelo no existe!!")
+                else:
+                    try:
+
+                        print("Producto eliminado!!")
+                    except ValueError:
+                        print("Debe ingresar valores enteros!!")
+                otro = input("¿Desea eliminar otro producto? (s/n): ")
+                if otro.lower() == "n":
+                    break
+        elif op== 4:
+            print("Programa finalizado.")
+            break
+        else:
+            print("Debe seleccionar una opción válida!!")
+
+
+if __name__ == "__main__":
+    menu()
+
